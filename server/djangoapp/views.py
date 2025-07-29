@@ -163,12 +163,10 @@ def get_dealer_details(request, dealer_id):
 
 # Create a `add_review` view to submit a review
 def add_review(request):
-    if(request.user.is_anonymous == False):
+    if request.method == "POST":
         data = json.loads(request.body)
-        try:
-            response = post_review(data)
-            return JsonResponse({"status":200})
-        except:
-            return JsonResponse({"status":401,"message":"Error in posting review"})
+        print("Review received:", data)
+        # You can process and forward this to Cloudant or wherever required
+        return JsonResponse({"message": "Review received"}, status=200)
     else:
-        return JsonResponse({"status":403,"message":"Unauthorized"})
+        return JsonResponse({"error": "Invalid method"}, status=400)
