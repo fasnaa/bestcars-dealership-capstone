@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
 import logging
 import json
 
@@ -20,7 +18,9 @@ logger = logging.getLogger(__name__)
 def get_cars(request):
     initiate()  # force run
     car_models = CarModel.objects.select_related('car_make')
-    cars = [{"CarModel": cm.name, "CarMake": cm.car_make.name} for cm in car_models]
+    cars = [
+        {"CarModel": cm.name, "CarMake": cm.car_make.name} for cm in car_models
+        ]
     return JsonResponse({"CarModels": cars})
 
 
@@ -99,7 +99,9 @@ def registration(request):
         login(request, user)
         return JsonResponse({"userName": username, "status": "Authenticated"})
     else:
-        return JsonResponse({"userName": username, "error": "Already Registered"})
+        return JsonResponse(
+            {"userName": username, "error": "Already Registered"}
+            )
 
 
 # List dealerships (optionally filtered by state)
