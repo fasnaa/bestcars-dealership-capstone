@@ -25,11 +25,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
 
+      - name: Configure Flake8
+        run: |
+          echo "[flake8]" > .flake8
+          echo "max-line-length = 79" >> .flake8
+          echo "exclude = venv, migrations, __pycache__" >> .flake8
+          echo "ignore = E203, W503" >> .flake8  # Optional: common false positives
+
       - name: Run Linter
         run: |
-          echo "Running flake8 on Python files..."
+          echo "🔍 Running flake8 on Python files..."
           find . -name "*.py" -exec flake8 {} +
-          echo "✅ Linted all the Python files successfully"
+          echo "✅ Python linting complete!"
 
   lint_js:
     name: Lint JavaScript Files
@@ -45,10 +52,13 @@ jobs:
           node-version: 14
 
       - name: Install JSHint
-        run: npm install jshint --global
+        run: npm install -g jshint
+
+      - name: Add ES version config
+        run: echo '/*jshint esversion: 8 */' > .jshintrc
 
       - name: Run Linter
         run: |
-          echo "Running JSHint on JavaScript files..."
+          echo "🔍 Running JSHint on JavaScript files..."
           find ./server/database -name "*.js" -exec jshint {} +
-          echo "✅ Linted all the JS files successfully"
+          echo "✅ JavaScript linting complete!"
