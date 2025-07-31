@@ -20,7 +20,7 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make')
     cars = [
         {"CarModel": cm.name, "CarMake": cm.car_make.name} for cm in car_models
-        ]
+    ]
     return JsonResponse({"CarModels": cars})
 
 
@@ -101,7 +101,7 @@ def registration(request):
     else:
         return JsonResponse(
             {"userName": username, "error": "Already Registered"}
-            )
+        )
 
 
 # List dealerships (optionally filtered by state)
