@@ -23,9 +23,9 @@ const Dealerships = require('./dealership');
 (async () => {
   try {
     await Reviews.deleteMany({});
-    await Reviews.insertMany(reviews_data['reviews']);
+    await Reviews.insertMany(reviews_data.reviews); // ✅ dot notation
     await Dealerships.deleteMany({});
-    await Dealerships.insertMany(dealerships_data['dealerships']);
+    await Dealerships.insertMany(dealerships_data.dealerships); // ✅ dot notation
     console.log("Database seeded successfully.");
   } catch (error) {
     console.error("Error seeding database:", error);
@@ -102,14 +102,14 @@ app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
 
     const review = new Reviews({
       id: new_id,
-      name: data['name'],
-      dealership: data['dealership'],
-      review: data['review'],
-      purchase: data['purchase'],
-      purchase_date: data['purchase_date'],
-      car_make: data['car_make'],
-      car_model: data['car_model'],
-      car_year: data['car_year'],
+      name: data.name,                   // ✅ dot notation
+      dealership: data.dealership,
+      review: data.review,
+      purchase: data.purchase,
+      purchase_date: data.purchase_date,
+      car_make: data.car_make,
+      car_model: data.car_model,
+      car_year: data.car_year
     });
 
     const savedReview = await review.save();
